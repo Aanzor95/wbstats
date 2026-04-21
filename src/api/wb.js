@@ -1,4 +1,8 @@
-﻿const REPORTS_API_BASE_URL = (import.meta.env.VITE_WB_API_BASE_URL || "/wb-api").replace(/\/$/, "");
+const DEFAULT_REPORTS_API_BASE_URL = import.meta.env.DEV
+  ? "/wb-api"
+  : "https://statistics-api.wildberries.ru";
+
+const REPORTS_API_BASE_URL = (import.meta.env.VITE_WB_API_BASE_URL || DEFAULT_REPORTS_API_BASE_URL).replace(/\/$/, "");
 const responseCache = new Map();
 
 export const WB_REPORTS_AVAILABLE_FROM = "2024-01-29";
@@ -63,7 +67,12 @@ async function requestReport({ token, dateFrom, dateTo, signal }) {
 
     if (!response.ok) {
       const text = await response.text();
-      throw new Error(`WB API вернул HTTP ${response.status}: ${text.slice(0, 200) || "пусто"}`);
+      const shortText = text
+        .replace(/\s+/g, " ")
+        .replace(/<[^>]+>/g, "")
+        .trim()
+        .slice(0, 200);
+      throw new Error(`WB API вернул HTTP ${response.status}: ${shortText || "пусто"}`);
     }
 
     const data = await parseJsonResponse(response, "WB API вернул не JSON");

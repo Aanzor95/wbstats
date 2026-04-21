@@ -1,4 +1,4 @@
-﻿# WB Dashboard
+# WB Dashboard
 
 Адаптивный сайт-дашборд на React + Vite для продавца Wildberries.
 
@@ -23,11 +23,12 @@
 Создайте `.env` на основе `.env.example` и укажите:
 
 ```env
-VITE_WB_API_TOKEN=ваш_wb_api_token
+VITE_WB_API_TOKEN=ваш_wildberries_api_token
 VITE_WB_API_BASE_URL=/wb-api
 ```
 
 `VITE_WB_API_BASE_URL=/wb-api` используется для локальной разработки через Vite proxy.
+В production-сборке без этой переменной проект по умолчанию ходит в `https://statistics-api.wildberries.ru`.
 
 ## Запуск сайта
 
